@@ -1,4 +1,4 @@
-export const addNewFromControl = [
+export const addNewFormControl = [
   {
     name: 'firstName',
     label: 'First Name',
@@ -25,11 +25,9 @@ export const addNewFromControl = [
   },
 ];
 
-
-
-export const addNewUserFromInitialState = {
-  firstName :'',
-  lastName : '',
-  email : '',
-  address : ''
-}
+export const addNewUserInitialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  address: '',
+};
