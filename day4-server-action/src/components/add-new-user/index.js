@@ -1,60 +1,66 @@
 'use client';
 
-import { useState } from "react";
+import { useContext } from "react";
 import { Button } from "../ui/button";
-
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
-  DialogClose,
+  DialogClose
 } from "@/components/ui/dialog";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { addNewFormControl, addNewUserInitialState } from "../../app/utils";
-import { handleAddNewUserAction } from "@/actions" // ✅ server action
+import { handleAddNewUserAction, editUserAction } from "@/actions";
+import { UserContext } from "@/context";
 
-export default function AddNewUser() {
-  const [openPopup, setOpenPopup] = useState(false);
-  const [addNewUserFormData, setAddNewUserFormData] = useState(addNewUserInitialState);
+export default function AddNewUser({ refreshUsers }) {
+  const {
+    currentEditedId,
+    setCurrentEditedId,
+    openPopup,
+    setOpenPopup,
+    addNewUserFormData,
+    setAddNewUserFormData
+  } = useContext(UserContext);
 
   const handleSaveButtonValid = () =>
-    Object.values(addNewUserFormData).every((value) => value.trim() !== "");
+    Object.values(addNewUserFormData).every(value => value.trim() !== "");
 
-  const handleSubmit = async (event) => {
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const result = await handleAddNewUserAction(addNewUserFormData); // Server action
-      console.log(result); // Should log success message
+      if (currentEditedId) {
+        await editUserAction(currentEditedId, addNewUserFormData, "/user-management");
+      } else {
+        await handleAddNewUserAction(addNewUserFormData);
+      }
+
+      // ✅ Refresh parent list
+      refreshUsers();
 
       setOpenPopup(false);
       setAddNewUserFormData(addNewUserInitialState);
-    } catch (error) {
-      console.error(error);
+      setCurrentEditedId(null);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong!");
     }
   };
 
   return (
-    <div className="">
+    <div>
       <Button onClick={() => setOpenPopup(true)}>Add New User</Button>
 
-      <Dialog
-        open={openPopup}
-        onOpenChange={(open) => {
-          if (!open) setAddNewUserFormData(addNewUserInitialState);
-          setOpenPopup(open);
-        }}
-      >
+      <Dialog open={openPopup} onOpenChange={setOpenPopup}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add New User</DialogTitle>
+            <DialogTitle>{currentEditedId ? "Edit User" : "Add New User"}</DialogTitle>
             <DialogDescription>
-              Enter user details below and click save when you&apos;re done.
+              Enter user details below and click save when done.
             </DialogDescription>
           </DialogHeader>
 
@@ -78,12 +84,12 @@ export default function AddNewUser() {
               </div>
             ))}
 
-            <DialogFooter>
+            <DialogFooter className="flex gap-2">
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
               <Button disabled={!handleSaveButtonValid()} type="submit">
-                Save Changes
+                {currentEditedId ? "Save Changes" : "Add User"}
               </Button>
             </DialogFooter>
           </form>

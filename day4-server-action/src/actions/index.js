@@ -78,3 +78,26 @@ export async function deleteUserAction(currentUserID, pathToRevalidate) {
     };
   }
 }
+
+export async function editUserAction(currentUserID, formData, pathToRevalidate) {
+  await connectToDB();
+  try {
+    const { firstName, lastName, email, address } = formData;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      currentUserID,
+      { firstName, lastName, email, address },
+      { new: true }
+    );
+
+    if (updatedUser) {
+      revalidatePath(pathToRevalidate);
+      return { success: true, message: 'User updated successfully ✅' };
+    } else {
+      return { success: false, message: 'Unable to update user ❌' };
+    }
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: 'Internal server error ❌' };
+  }
+}
