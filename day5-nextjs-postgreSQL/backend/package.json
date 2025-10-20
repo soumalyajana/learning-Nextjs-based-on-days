@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx prisma generate && node src/server.js",
-    "start": "npx prisma generate && nodemon src/server.js"
+    "start": "npx prisma generate && nodemon src/server.js",
+    "seed": "node prisma/seed.js"
   },
   "keywords": [],
   "author": "",

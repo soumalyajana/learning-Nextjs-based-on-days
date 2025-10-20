@@ -54,7 +54,7 @@ async function getBookById(id) {
   }
 }
 
-async function updateBook(id, newTitle) {
+async function updateBook(id, newTitle, newPublishedDate, newAuthorId) {
   try {
     const book = await prisma.book.findUnique({
       where: { id },
@@ -64,7 +64,11 @@ async function updateBook(id, newTitle) {
 
     const updatedBook = await prisma.book.update({
       where: { id },
-      data: { title: newTitle },
+      data: {
+        title: newTitle,
+        publishedDate: newPublishedDate,
+        authorId: newAuthorId, // <-- Update the authorId
+      },
       include: { author: true },
     });
 

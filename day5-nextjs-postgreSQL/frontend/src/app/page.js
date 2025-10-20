@@ -4,26 +4,33 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-8 gap-8">
-      <h1 className="text-4xl font-bold text-blue-600">Library App</h1>
-      <p className="text-gray-700 text-lg">
-        Manage Authors and Books easily
-      </p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+      
+      <div className="text-center max-w-2xl">
+        <h1 className="text-5xl font-extrabold text-indigo-600 mb-4 drop-shadow-lg">
+          Welcome to Library App
+        </h1>
+        <p className="text-gray-700 text-lg sm:text-xl mb-8">
+          Easily manage your authors and books in one place.
+        </p>
 
-      <div className="flex gap-4 flex-col sm:flex-row">
-        <Link
-          href="/authors"
-          className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition"
-        >
-          View Authors
-        </Link>
-        <Link
-          href="/books"
-          className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transition"
-        >
-          View Books
-        </Link>
+        
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Link
+            href="/authors"
+            className="bg-indigo-600 text-white px-8 py-3 rounded-lg shadow-md hover:bg-indigo-700 transition transform hover:-translate-y-1"
+          >
+            View Authors
+          </Link>
+          <Link
+            href="/books"
+            className="bg-green-500 text-white px-8 py-3 rounded-lg shadow-md hover:bg-green-600 transition transform hover:-translate-y-1"
+          >
+            View Books
+          </Link>
+        </div>
       </div>
+
     </div>
   );
 }

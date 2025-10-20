@@ -1,6 +1,5 @@
 const bookService = require('../services/bookService');
 
-// ✅ Add a new book
 exports.addBook = async (req, res) => {
   try {
     const { title, publishedDate, authorId } = req.body;
@@ -9,10 +8,11 @@ exports.addBook = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const date = new Date(publishedDate);
+    const date = new Date(publishedDate + "T00:00:00Z");
     if (isNaN(date.getTime())) {
       return res.status(400).json({ error: "Invalid publishedDate" });
     }
+
 
     const book = await bookService.addBook(title, authorId, date);
     res.status(201).json(book);
@@ -22,7 +22,7 @@ exports.addBook = async (req, res) => {
   }
 };
 
-// ✅ Get book by ID
+
 exports.getBookById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -44,7 +44,7 @@ exports.getBookById = async (req, res) => {
   }
 };
 
-// ✅ Get all books
+
 exports.getAllBooks = async (req, res) => {
   try {
     const books = await bookService.getAllBooks();
@@ -55,7 +55,7 @@ exports.getAllBooks = async (req, res) => {
   }
 };
 
-// ✅ Update book title
+
 exports.updateBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -68,8 +68,6 @@ exports.updateBook = async (req, res) => {
 };
 
 
-
-// ✅ Delete book
 exports.deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
