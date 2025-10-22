@@ -8,19 +8,25 @@ export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  // Redirect to login if not logged in
   useEffect(() => {
-  if (!loading && !user) {
-    router.push("/auth/login"); // ✅ correct path
-  }
-}, [loading, user, router]);
+    if (!loading) {
+      const token = localStorage.getItem("token");
 
+      if (!token) {
+        // If no token, redirect to signup first
+        router.push("/auth/signup");
+      } else if (!user) {
+        // If token exists but user not loaded or invalid, redirect to login
+        localStorage.removeItem("token");
+        router.push("/auth/login");
+      }
+    }
+  }, [loading, user, router]);
 
   const handleLogout = () => {
-  localStorage.removeItem("token"); // Remove JWT token
-  router.push("/auth/login"); // ✅ correct path
-};
-
+    localStorage.removeItem("token");
+    router.push("/auth/login");
+  };
 
   if (loading) return <p className="text-center mt-20">Loading...</p>;
 

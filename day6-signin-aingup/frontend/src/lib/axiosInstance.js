@@ -1,18 +1,22 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api",
-  withCredentials: true,
+  baseURL: "http://localhost:5001/api", // backend URL
+  withCredentials: false,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+// Add a request interceptor to attach JWT token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
-  }
-  return config;
-});
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default axiosInstance;

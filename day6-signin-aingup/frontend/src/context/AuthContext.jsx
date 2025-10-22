@@ -1,33 +1,42 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { getCurrentUser } from "../lib/api/auth";
+import { getCurrentUser } from "@/lib/api/auth";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  // Check if user is logged in
   const fetchUser = async () => {
-    // Only check localStorage in browser
     if (typeof window === "undefined") return;
 
     const token = localStorage.getItem("token");
+
     if (!token) {
-      setUser(null);
+      // No token → redirect to signup automatically
+      router.push("/auth/signup");
       setLoading(false);
       return;
     }
 
     try {
       const data = await getCurrentUser(); // GET /auth/me
-      setUser(data); // data is user object
+      if (!data) {
+        localStorage.removeItem("token");
+        router.push("/auth/signup"); // Invalid token → signup
+        setUser(null);
+      } else {
+        setUser(data);
+      }
     } catch (err) {
       console.error("Auth fetch user error:", err);
+      localStorage.removeItem("token");
+      router.push("/auth/signup"); // If request fails, redirect
       setUser(null);
-      localStorage.removeItem("token"); // remove invalid token
     } finally {
       setLoading(false);
     }
@@ -44,5 +53,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook for easy access
 export const useAuth = () => useContext(AuthContext);

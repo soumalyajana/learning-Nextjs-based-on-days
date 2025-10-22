@@ -4,7 +4,7 @@ const router = express.Router(); // Router helps organize routes in different fi
 
 // Import controller functions that handle logic for each route
 // These will be defined in '../controllers/auth-controller.js'
-const { registerUser, loginUser, changePassword ,getCurrentUser } = require('../controllers/auth-controller');
+const { registerUser, loginUser, changePassword ,getCurrentUser , forgotPassword, resetPassword} = require('../controllers/auth-controller');
 
 // Import authentication middleware
 // This middleware checks if a user is logged in (has a valid token)
