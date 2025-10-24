@@ -1,5 +1,5 @@
-"use client";;
-import React, { useMemo, useRef, useState } from "react";
+"use client";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export const BackgroundRippleEffect = ({
@@ -10,23 +10,37 @@ export const BackgroundRippleEffect = ({
   const [clickedCell, setClickedCell] = useState(null);
   const [rippleKey, setRippleKey] = useState(0);
   const ref = useRef(null);
+  const [dimensions, setDimensions] = useState({ rows, cols });
+
+  // 🔹 Automatically adjust rows & cols to fit full screen
+  useEffect(() => {
+    const updateGrid = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const cols = Math.ceil(width / cellSize);
+      const rows = Math.ceil(height / cellSize);
+      setDimensions({ rows, cols });
+    };
+    updateGrid();
+    window.addEventListener("resize", updateGrid);
+    return () => window.removeEventListener("resize", updateGrid);
+  }, [cellSize]);
 
   return (
     <div
       ref={ref}
       className={cn(
-        "absolute inset-0 h-full w-full",
+        "absolute inset-0 h-full w-full overflow-hidden",
         "[--cell-border-color:var(--color-neutral-300)] [--cell-fill-color:var(--color-neutral-100)] [--cell-shadow-color:var(--color-neutral-500)]",
         "dark:[--cell-border-color:var(--color-neutral-700)] dark:[--cell-fill-color:var(--color-neutral-900)] dark:[--cell-shadow-color:var(--color-neutral-800)]"
-      )}>
-      <div className="relative h-auto w-auto overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-0 z-[2] h-full w-full overflow-hidden" />
+      )}
+    >
+      <div className="absolute inset-0">
         <DivGrid
           key={`base-${rippleKey}`}
-          className="mask-radial-from-20% mask-radial-at-top opacity-600"
-          rows={rows}
-          cols={cols}
+          className="mask-radial-from-20% mask-radial-at-top opacity-60"
+          rows={dimensions.rows}
+          cols={dimensions.cols}
           cellSize={cellSize}
           borderColor="var(--cell-border-color)"
           fillColor="var(--cell-fill-color)"
@@ -35,7 +49,8 @@ export const BackgroundRippleEffect = ({
             setClickedCell({ row, col });
             setRippleKey((k) => k + 1);
           }}
-          interactive />
+          interactive
+        />
       </div>
     </div>
   );
@@ -43,14 +58,14 @@ export const BackgroundRippleEffect = ({
 
 const DivGrid = ({
   className,
-  rows = 7,
-  cols = 30,
-  cellSize = 56,
-  borderColor = "#3f3f46",
-  fillColor = "rgba(14,165,233,0.3)",
-  clickedCell = null,
-  onCellClick = () => {},
-  interactive = true
+  rows,
+  cols,
+  cellSize,
+  borderColor,
+  fillColor,
+  clickedCell,
+  onCellClick,
+  interactive
 }) => {
   const cells = useMemo(() => Array.from({ length: rows * cols }, (_, idx) => idx), [rows, cols]);
 
@@ -58,9 +73,8 @@ const DivGrid = ({
     display: "grid",
     gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
     gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
-    width: cols * cellSize,
-    height: rows * cellSize,
-    marginInline: "auto",
+    width: "100%",
+    height: "100%",
   };
 
   return (
@@ -71,8 +85,8 @@ const DivGrid = ({
         const distance = clickedCell
           ? Math.hypot(clickedCell.row - rowIdx, clickedCell.col - colIdx)
           : 0;
-        const delay = clickedCell ? Math.max(0, distance * 55) : 0; // ms
-        const duration = 200 + distance * 80; // ms
+        const delay = clickedCell ? Math.max(0, distance * 55) : 0;
+        const duration = 200 + distance * 80;
 
         const style = clickedCell
           ? {
@@ -96,7 +110,8 @@ const DivGrid = ({
             }}
             onClick={
               interactive ? () => onCellClick?.(rowIdx, colIdx) : undefined
-            } />
+            }
+          />
         );
       })}
     </div>
