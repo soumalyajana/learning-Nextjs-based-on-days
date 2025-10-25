@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Tilt from "react-parallax-tilt";
-import {
-  FaReact,
-  FaNodeJs,
-  FaDatabase,
-} from "react-icons/fa";
+import { FaReact, FaNodeJs, FaDatabase } from "react-icons/fa";
 import { GiBearFace } from "react-icons/gi";
 import {
   SiJavascript,
@@ -23,14 +19,7 @@ import {
 } from "react-icons/si";
 import { ShineBorder } from "../ui/shine-border";
 
-
-const skillTabs = [
-  "Frontend",
-  "Backend",
-  "Database",
-  "Version Control",
-  "Tools",
-];
+const skillTabs = ["Frontend", "Backend", "Database", "Version Control", "Tools"];
 
 const skillsData = {
   Frontend: [
@@ -69,20 +58,19 @@ function SkillCard({ skill, index }) {
       viewport={{ once: true }}
       transition={{ delay: index * 0.05 }}
     >
-    
       <Tilt scale={1.05} glareEnable glareMaxOpacity={0.1}>
-        <ShineBorder/>
-        <div className="bg-white dark:bg-neutral-800 rounded border border-gray-300/50 dark:border-gray-700/50 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-500 p-6 flex flex-col items-center justify-between h-full">
+        <ShineBorder />
+        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-gray-300/50 dark:border-gray-700/50 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-500 p-4 sm:p-6 flex flex-col items-center justify-between min-h-[150px]">
           <div
-            className="text-5xl mb-4 transition-transform duration-300 hover:scale-110"
+            className="text-4xl sm:text-5xl md:text-5xl mb-4 transition-transform duration-300 hover:scale-110"
             style={{ color: skill.color }}
           >
             <Icon />
           </div>
-          <h3 className="text-xl font-semibold text-center mb-3 dark:text-gray-100">
+          <h3 className="text-lg sm:text-xl font-semibold text-center mb-3 dark:text-gray-100">
             {skill.name}
           </h3>
-          <button className="px-4 py-2 text-sm font-medium bg-gray-200 text-gray-800 rounded-md hover:bg-amber-400 hover:text-white transition-colors duration-300 dark:bg-neutral-700 dark:text-gray-100">
+          <button className="px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium bg-gray-200 text-gray-800 rounded-md hover:bg-amber-400 hover:text-white transition-colors duration-300 dark:bg-neutral-700 dark:text-gray-100">
             Explore
           </button>
         </div>
@@ -95,25 +83,24 @@ export default function SkillsSection() {
   const [activeTab, setActiveTab] = useState("Frontend");
 
   return (
-    <div className="w-full py-20 px-6 sm:px-10 lg:px-24 bg-[rgb(247,247,247)] dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-900">
-      <ShineBorder />
+    <div className="w-full py-16 sm:py-20 px-4 sm:px-10 lg:px-24 bg-[rgb(247,247,247)] dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-900">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl sm:text-5xl font-bold text-gray-800 mb-12 text-center sm:text-left"
+        className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-10 sm:mb-12 text-center sm:text-left"
       >
         My Skills
       </motion.h2>
 
       {/* Tabs */}
-      <div className="flex flex-wrap justify-center sm:justify-start gap-4 mb-12">
+      <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4 mb-10 sm:mb-12">
         {skillTabs.map((tab) => (
           <motion.button
             key={tab}
             onClick={() => setActiveTab(tab)}
             whileTap={{ scale: 0.95 }}
-            className={`px-6 py-2 rounded text-lg font-semibold transition-all duration-300 shadow-md ${
+            className={`px-4 sm:px-6 py-1 sm:py-2 rounded text-sm sm:text-lg font-semibold transition-all duration-300 shadow-md ${
               activeTab === tab
                 ? "bg-amber-500 text-white shadow-lg"
                 : "bg-gray-200 text-gray-800 hover:bg-amber-300 dark:bg-neutral-700 dark:text-gray-100 dark:hover:bg-amber-400"
@@ -130,11 +117,9 @@ export default function SkillsSection() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 min-h-[350px]"
       >
-        
         {skillsData[activeTab].map((skill, index) => (
-          
           <SkillCard key={index} skill={skill} index={index} />
         ))}
       </motion.div>

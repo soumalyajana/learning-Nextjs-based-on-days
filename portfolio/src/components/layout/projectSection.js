@@ -1,6 +1,7 @@
 "use client";
 
 import { FaYoutube, FaExternalLinkAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const projects = [
   {
@@ -38,61 +39,68 @@ const projects = [
       "A real-time chat application that allows users to send messages instantly, create rooms, and see online presence using Socket.io and MongoDB.",
     youtube: "#",
     link: "#",
-  },
-  {
-    title: "Expense Tracker",
-    subtitle: "Personal finance management app",
-    tech: ["React", "TypeScript", "Vite", "LocalStorage"],
-    description:
-      "A lightweight web application to track personal expenses, categorize spending, and visualize financial data with charts.",
-    youtube: "#",
-    link: "#",
-  },
-  {
-    title: "AI-based Route Planner",
-    subtitle: "Smart navigation for emergency vehicles",
-    tech: ["Python", "Flask", "OpenStreetMap API", "Machine Learning"],
-    description:
-      "An AI-powered system to calculate optimal routes for ambulances in real-time using traffic data and predictive analytics.",
-    youtube: "#",
-    link: "#",
-  },
+  }
 ];
-
 
 export default function Projects() {
   return (
-    <div className="bg-[rgb(247,247,247)] flex  flex-col ml-30 mr-30 gap-6 p-6">
+    <div className="bg-[rgb(247,247,247)] flex flex-col gap-6 p-4 sm:p-6 md:p-10 mx-2 sm:mx-6 lg:mx-24">
+      {/* Section Title */}
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-800 mb-12 text-center sm:text-left"
+      >
+        Personal Projects
+      </motion.h2>
+
+      {/* Projects Cards */}
       {projects.map((project, idx) => (
         <div
           key={idx}
-          className="bg-white h-90 dark:bg-gray-900 rounded-xl p-10 shadow-lg relative"
+          className="bg-white dark:bg-gray-900 rounded-xl p-6 sm:p-8 md:p-10 shadow-lg relative min-h-[300px]"
         >
+          {/* Icons */}
           <div className="absolute top-4 right-4 flex gap-2 text-gray-600 dark:text-gray-300">
             {project.youtube && (
-              <a href={project.youtube} target="_blank">
+              <a href={project.youtube} target="_blank" rel="noreferrer">
                 <FaYoutube className="w-5 h-5" />
               </a>
             )}
             {project.link && (
-              <a href={project.link} target="_blank">
+              <a href={project.link} target="_blank" rel="noreferrer">
                 <FaExternalLinkAlt className="w-5 h-5" />
               </a>
             )}
           </div>
-          <h2 className="text-7xl font-bold">{project.title}</h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-1">{project.subtitle}</p>
+
+          {/* Title */}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+            {project.title}
+          </h2>
+
+          {/* Subtitle */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mt-1">
+            {project.subtitle}
+          </p>
+
+          {/* Tech Tags */}
           <div className="flex flex-wrap gap-2 mt-3">
             {project.tech.map((tech, idx) => (
               <span
                 key={idx}
-                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-full text-sm"
+                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm md:text-sm hover:bg-amber-400 hover:text-white transition-colors duration-300"
               >
                 {tech}
               </span>
             ))}
           </div>
-          <p className="mt-4 text-gray-700 dark:text-gray-300">{project.description}</p>
+
+          {/* Description */}
+          <p className="mt-4 text-sm sm:text-base md:text-base text-gray-700 dark:text-gray-300">
+            {project.description}
+          </p>
         </div>
       ))}
     </div>

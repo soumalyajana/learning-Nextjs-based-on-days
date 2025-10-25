@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function NavbarDemo() {
   return (
-    <div className="relative w-full flex items-center justify-center">
+    <div className="fixed top-0 w-full py-4 sm:h-[100px] lg:h-[120px] backdrop-blur-xl z-50 mix-blend-difference flex items-center justify-center">
       <Navbar className="top-4 sm:top-6 md:top-4" />
     </div>
   );
@@ -21,7 +21,6 @@ function Navbar({ className }) {
   return (
     <div className={cn(
   "fixed inset-x-0 z-50 mx-auto max-w-full px-4 sm:px-6 md:max-w-3xl",
-  
   className
 )}>
 
@@ -96,3 +95,38 @@ function Navbar({ className }) {
     </div>
   );
 }
+
+
+// "use client";
+// import React from "react";
+
+// export default function NavbarDemo() {
+//   return (
+//     <div className="fixed w-full py-4 sm:h-[100px] lg:h-[120px] top-0 backdrop-blur-xl z-50 mix-blend-difference">
+//       <div className="sm:w-[90%] md:w-[50%] gap-5 lg:gap-15 bg-zinc-200 h-full m-auto rounded-2xl flex justify-center items-center p-4">
+
+//         <a href="https://github.com/techypants" className="text-black text-[30px] lg:text-[40px]">
+//           {/* Replace ... with icon or text */}
+//           GitHub
+//         </a>
+
+//         <a href="https://x.com/tnmpant02" className="text-black text-[30px] lg:text-[40px]">
+//           X
+//         </a>
+
+//         <a href="https://www.linkedin.com/in/tanmay-pant/" className="text-black text-[35px] lg:text-[45px]">
+//           LinkedIn
+//         </a>
+
+//         <a href="mailto:tnmpant02@gmail.com" className="text-black text-[35px] lg:text-[45px]">
+//           Email
+//         </a>
+
+//         <a href="https://drive.google.com/file/d/13GwZkuwxWmu8wsLMTFZAR9S7ZKA0T5F9/view?usp=drive_link" className="text-black text-[30px] lg:text-[40px]">
+//           Resume
+//         </a>
+
+//       </div>
+//     </div>
+//   );
+// }
