@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-zinc-50 font-sans dark:bg-black">
       {/* Navbar fixed at top */}
-      <NavbarDemo />
+      <NavbarDemo/>
       <HomeSection/>
       <NextLevelSkillsSection/>
       <ProjectsSection/>

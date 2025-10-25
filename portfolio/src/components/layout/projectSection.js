@@ -1,95 +1,100 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { FaYoutube, FaExternalLinkAlt } from "react-icons/fa";
 
 const projects = [
   {
-    title: "Portfolio Website",
+    title: "Restaurant Management System",
+    subtitle: "Full-stack JS application for restaurant operations",
+    tech: ["JavaScript", "Node.js", "Express", "MySQL"],
     description:
-      "A modern, responsive portfolio website built with Next.js and TailwindCSS, showcasing projects, skills, and contact info.",
-    techStack: ["Next.js", "TailwindCSS", "Framer Motion"],
-    github: "https://github.com/yourusername/portfolio",
-    demo: "#",
-    image: "/portfolio-demo.png",
+      "A complete restaurant management platform built with Node.js, Express, and MySQL, supporting inventory, orders, reservations, and user management.",
+    youtube: "#",
+    link: "#",
+  },
+  {
+    title: "NLP Topology Creator",
+    subtitle: "Regex-based network topology generator",
+    tech: ["JavaScript", "Regex", "NLP"],
+    description:
+      "An NLP-based JS tool that interprets user input sentences to create network topologies with ease.",
+    youtube: "#",
+    link: "#",
+  },
+  {
+    title: "E-commerce Website",
+    subtitle: "Next.js and Firebase online store",
+    tech: ["Next.js", "React", "Firebase", "TailwindCSS"],
+    description:
+      "A fully responsive e-commerce website with authentication, product management, shopping cart, and payment integration using Firebase.",
+    youtube: "#",
+    link: "#",
   },
   {
     title: "Real-time Chat App",
+    subtitle: "WebSocket-based messaging platform",
+    tech: ["React", "Node.js", "Socket.io", "MongoDB"],
     description:
-      "A real-time chat application with user authentication and live messaging using Socket.io and Node.js.",
-    techStack: ["Node.js", "Socket.io", "React", "Express"],
-    github: "https://github.com/yourusername/chat-app",
-    demo: "#",
-    image: "/chat-demo.png",
+      "A real-time chat application that allows users to send messages instantly, create rooms, and see online presence using Socket.io and MongoDB.",
+    youtube: "#",
+    link: "#",
   },
-  // Add more projects as needed
+  {
+    title: "Expense Tracker",
+    subtitle: "Personal finance management app",
+    tech: ["React", "TypeScript", "Vite", "LocalStorage"],
+    description:
+      "A lightweight web application to track personal expenses, categorize spending, and visualize financial data with charts.",
+    youtube: "#",
+    link: "#",
+  },
+  {
+    title: "AI-based Route Planner",
+    subtitle: "Smart navigation for emergency vehicles",
+    tech: ["Python", "Flask", "OpenStreetMap API", "Machine Learning"],
+    description:
+      "An AI-powered system to calculate optimal routes for ambulances in real-time using traffic data and predictive analytics.",
+    youtube: "#",
+    link: "#",
+  },
 ];
 
-export default function ProjectsSection() {
+
+export default function Projects() {
   return (
-    <section className="w-full py-20 px-6 sm:px-10 lg:px-24">
-      <h2 className="text-4xl sm:text-5xl font-bold text-amber-400 text-center mb-12">
-        My Projects
-      </h2>
-
-      <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: idx * 0.2 }}
-            className="bg-white/5 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-shadow duration-500 flex flex-col"
-          >
-            <div className="relative w-full h-48 rounded-2xl overflow-hidden mb-4">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <h3 className="text-2xl font-semibold text-amber-400 mb-2">
-              {project.title}
-            </h3>
-            <p className="text-neutral-300 mb-4">{project.description}</p>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.techStack.map((tech, i) => (
-                <span
-                  key={i}
-                  className="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-sm"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-auto flex gap-4">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-amber-400 hover:text-amber-300 font-semibold transition-colors"
-              >
-                GitHub
+    <div className="bg-[rgb(247,247,247)] flex  flex-col ml-30 mr-30 gap-6 p-6">
+      {projects.map((project, idx) => (
+        <div
+          key={idx}
+          className="bg-white h-90 dark:bg-gray-900 rounded-xl p-10 shadow-lg relative"
+        >
+          <div className="absolute top-4 right-4 flex gap-2 text-gray-600 dark:text-gray-300">
+            {project.youtube && (
+              <a href={project.youtube} target="_blank">
+                <FaYoutube className="w-5 h-5" />
               </a>
-              {project.demo && (
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-amber-400 hover:text-amber-300 font-semibold transition-colors"
-                >
-                  Live Demo
-                </a>
-              )}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
+            )}
+            {project.link && (
+              <a href={project.link} target="_blank">
+                <FaExternalLinkAlt className="w-5 h-5" />
+              </a>
+            )}
+          </div>
+          <h2 className="text-7xl font-bold">{project.title}</h2>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">{project.subtitle}</p>
+          <div className="flex flex-wrap gap-2 mt-3">
+            {project.tech.map((tech, idx) => (
+              <span
+                key={idx}
+                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-full text-sm"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+          <p className="mt-4 text-gray-700 dark:text-gray-300">{project.description}</p>
+        </div>
+      ))}
+    </div>
   );
 }
